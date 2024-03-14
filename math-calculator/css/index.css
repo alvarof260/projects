@@ -47,27 +47,56 @@ body {
 
 .header_navbar {
   background-color: #33362f62;
-  padding: 10px 40px;
   border-radius: 10px;
   border: #4f524b9f solid 1px;
   backdrop-filter: blur(40px);
-}
-
-.navbar {
+  position: relative;
+  width: 400px;
+  height: 50px;
   display: flex;
-  flex-flow: row nowrap;
   justify-content: space-around;
-  gap: 20px;
-}
-
-.navbar_list {
-  list-style: none;
+  align-items: center;
 }
 
 .navbar_link {
+  position: relative;
+  display: inline-block;
   text-decoration: none;
-  color: #ffffff;
+  color: #ebcaff;
   font-size: 18px;
+  font-weight: 500;
+  z-index: 1;
+  width: calc(100% / 3);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.navbar_link:hover {
+  color: #1f1c20;
+}
+
+.header_navbar span {
+  position: absolute;
+  height: 100%;
+  width: calc(100% / 3);
+  background-color: #92e03d;
+  bottom: 0;
+  left: 0;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+}
+
+.header_navbar .navbar_link:nth-child(1):hover ~ span,
+.navbar_link {
+  left: 0;
+}
+
+.header_navbar .navbar_link:nth-child(2):hover ~ span {
+  left: calc(100% / 3);
+}
+
+.header_navbar .navbar_link:nth-child(3):hover ~ span {
+  left: calc(100% / 3 * 2);
 }
 
 .section-calculator {
