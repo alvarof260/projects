@@ -1,0 +1,16 @@
+{
+  "name": "projects",
+  "version": "1.0.0",
+  "description": "projects of javascript for learning to programming",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alvaro Estanislao Figueroa",
+  "keywords": [
+    "javascript",
+    "projects"
+  ],
+  "license": "ISC"
+}
