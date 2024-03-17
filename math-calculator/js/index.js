@@ -19,37 +19,42 @@ for (let link of links) {
 }
 
 /* calculator logic */
-const display = document.querySelector(".calculator_display");
 const previousOperandTextElement = document.querySelector(".previous_operand");
 const currentOperandTextElement = document.querySelector(".current_operand");
-const buttons = document.querySelectorAll(".calculator_button");
+const operators = document.querySelectorAll("[aria-operator]");
+const numbers = document.querySelectorAll("[aria-number]");
+const restartButton = document.querySelector("[aria-restart]");
+const deleteButton = document.querySelector("[aria-delete]");
+const equalButton = document.querySelector("[aria-equal]");
 
 class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
     this.previousOperandTextElement = previousOperandTextElement;
     this.currentOperandTextElement = currentOperandTextElement;
-    this.clear();
+    this.clear()
   }
 
-  appendNumber(number) {
-    this.currentOperand = this.currentOperand.toString() + number.toString();
+  append(number) {
+    if(this.currentOperand.length < 1 && number == "."){
+      this.currentOperand = '0'
+      this.updateDisplay()
+    }
+    if(this.currentOperand.includes('.') && number == ".") return
+    this.currentOperand += number.toString();
     this.updateDisplay();
   }
 
   clear() {
-    this.currentOperand = "";
+    if (!this.previousOperandTextElement && !this.currentOperandTextElement)
+      return;
     this.previousOperand = "";
-    this.updateDisplay();
-  }
-
-  delete() {
-    this.currentOperand = this.currentOperand.slice(0, -1);
+    this.currentOperand = "";
     this.updateDisplay();
   }
 
   updateDisplay() {
-    this.currentOperandTextElement.innerText = this.currentOperand;
     this.previousOperandTextElement.innerText = this.previousOperand;
+    this.currentOperandTextElement.innerText = this.currentOperand;
   }
 }
 
@@ -58,16 +63,13 @@ const calculator = new Calculator(
   currentOperandTextElement
 );
 
-buttons.forEach((button) => {
+restartButton.addEventListener("click", () => {
+  calculator.clear();
+});
+
+numbers.forEach((button) => {
   button.addEventListener("click", (e) => {
-    if (e.target.innerText.match(/[0-9]/)) {
-      calculator.appendNumber(e.target.innerText);
-    }
-    if (e.target.innerText === "ac") {
-      calculator.clear();
-    }
-    if (e.target.innerText === "del") {
-      calculator.delete();
-    }
+    const number = e.target.innerText
+    calculator.append(number)
   });
 });
