@@ -21,6 +21,7 @@ for (let link of links) {
 /* calculator logic */
 const previousOperandTextElement = document.querySelector(".previous_operand");
 const currentOperandTextElement = document.querySelector(".current_operand");
+const buttons = document.querySelectorAll(".calculator_button");
 const operators = document.querySelectorAll("[aria-operator]");
 const numbers = document.querySelectorAll("[aria-number]");
 const restartButton = document.querySelector("[aria-restart]");
@@ -128,7 +129,6 @@ restartButton.addEventListener("click", () => {
   calculator.clear();
 });
 
-
 deleteButton.addEventListener("click", () => {
   calculator.delete();
 });
@@ -147,6 +147,25 @@ operators.forEach((button) => {
   });
 });
 
-equalButton.addEventListener("click", () => {
-  calculator.compute();
-});
+
+document.addEventListener("keydown", (e) => {
+  if(e.key >= 0 && e.key <= 9) {
+    calculator.append(e.key);
+  }
+  if(e.key === ".") {
+    calculator.append(e.key);
+  }
+  if(e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
+    calculator.operation(e.key);
+  }
+  if(e.key === "Backspace") {
+    calculator.delete();
+  }
+  if(e.key === "Enter") {
+    calculator.compute();
+  }
+  if(e.key === "Escape" || e.key === "Delete") {
+    calculator.clear();
+  }
+})
+
