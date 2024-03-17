@@ -54,6 +54,17 @@ class Calculator {
     this.updateDisplay();
   }
 
+  delete() {
+    if(this.currentOperand === '0.'){
+      this.clear()
+    }
+    this.currentOperand = this.currentOperand.slice(
+      0,
+      this.currentOperand.length - 1
+    );
+    this.updateDisplay();
+  }
+
   clear() {
     if (!this.previousOperandTextElement && !this.currentOperandTextElement)
       return;
@@ -75,6 +86,10 @@ const calculator = new Calculator(
 
 restartButton.addEventListener("click", () => {
   calculator.clear();
+});
+
+deleteButton.addEventListener("click", () => {
+  calculator.delete();
 });
 
 numbers.forEach((button) => {
