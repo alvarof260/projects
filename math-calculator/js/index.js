@@ -133,6 +133,10 @@ deleteButton.addEventListener("click", () => {
   calculator.delete();
 });
 
+equalButton.addEventListener("click", () => {
+  calculator.compute();
+});
+
 numbers.forEach((button) => {
   button.addEventListener("click", (e) => {
     const number = e.target.innerText;
@@ -148,15 +152,23 @@ operators.forEach((button) => {
 });
 
 
+
 document.addEventListener("keydown", (e) => {
+  console.log(e.key);
   if(e.key >= 0 && e.key <= 9) {
     calculator.append(e.key);
   }
   if(e.key === ".") {
     calculator.append(e.key);
   }
-  if(e.key === "+" || e.key === "-" || e.key === "*" || e.key === "/") {
+  if(e.key === "+" || e.key === "-") {
     calculator.operation(e.key);
+  }
+  if(e.key === "*" ) {
+    calculator.operation("×");
+  }
+  if(e.key === "/") {
+    calculator.operation("÷");
   }
   if(e.key === "Backspace") {
     calculator.delete();
