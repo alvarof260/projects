@@ -31,16 +31,26 @@ class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
     this.previousOperandTextElement = previousOperandTextElement;
     this.currentOperandTextElement = currentOperandTextElement;
-    this.clear()
+    this.clear();
   }
 
   append(number) {
-    if(this.currentOperand.length < 1 && number == "."){
-      this.currentOperand = '0'
-      this.updateDisplay()
+    if (this.currentOperand.length < 1 && number == ".") {
+      this.currentOperand = "0";
+      this.updateDisplay();
     }
-    if(this.currentOperand.includes('.') && number == ".") return
+    if (this.currentOperand.includes(".") && number == ".") return;
     this.currentOperand += number.toString();
+    this.updateDisplay();
+  }
+
+  operation(operator) {
+    if (!this.currentOperand) return;
+    if (this.currentOperand === "0" || this.currentOperand === "0.") return;
+    if (this.previousOperand) return;
+    this.operator = operator;
+    this.previousOperand = this.currentOperand;
+    this.currentOperand = "";
     this.updateDisplay();
   }
 
@@ -69,7 +79,14 @@ restartButton.addEventListener("click", () => {
 
 numbers.forEach((button) => {
   button.addEventListener("click", (e) => {
-    const number = e.target.innerText
-    calculator.append(number)
+    const number = e.target.innerText;
+    calculator.append(number);
+  });
+});
+
+operators.forEach((button) => {
+  button.addEventListener("click", (e) => {
+    const operator = e.target.innerText;
+    calculator.operation(operator);
   });
 });
