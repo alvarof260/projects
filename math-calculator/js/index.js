@@ -39,14 +39,26 @@ class Calculator {
       this.currentOperand = "0";
       this.updateDisplay();
     }
+    if (this.currentOperand.length < 1 && number == "0") return;
     if (this.currentOperand.includes(".") && number == ".") return;
+    if (this.currentOperand.length > 0 && number == "-") return;
     this.currentOperand += number.toString();
     this.updateDisplay();
   }
 
   operation(operator) {
+    if (!this.currentOperand && operator === "-") {
+      this.currentOperand = operator;
+      this.updateDisplay();
+      return;
+    }
     if (!this.currentOperand) return;
-    if (this.currentOperand === "0" || this.currentOperand === "0.") return;
+    if (
+      this.currentOperand === "0" ||
+      this.currentOperand === "0." ||
+      this.currentOperand === "-"
+    )
+      return;
     if (this.previousOperand) return;
     this.operator = operator;
     this.previousOperand = this.currentOperand;
@@ -54,9 +66,36 @@ class Calculator {
     this.updateDisplay();
   }
 
+  compute() {
+    if (this.previousOperand && !this.currentOperand) return;
+    if (!this.previousOperand) return;
+    switch (this.operator) {
+      case "÷":
+        this.currentOperand =
+          parseFloat(this.previousOperand) / parseFloat(this.currentOperand);
+        break;
+      case "×":
+        this.currentOperand =
+          parseFloat(this.previousOperand) * parseFloat(this.currentOperand);
+        break;
+      case "-":
+        this.currentOperand =
+          parseFloat(this.previousOperand) - parseFloat(this.currentOperand);
+        break;
+      case "+":
+        this.currentOperand =
+          parseFloat(this.previousOperand) + parseFloat(this.currentOperand);
+        break;
+    }
+    this.previousOperand = "";
+    this.currentOperand = this.currentOperand.toString();
+    this.operator = undefined;
+    this.updateDisplay();
+  }
+
   delete() {
-    if(this.currentOperand === '0.'){
-      this.clear()
+    if (this.currentOperand === "0.") {
+      this.clear();
     }
     this.currentOperand = this.currentOperand.slice(
       0,
@@ -70,6 +109,7 @@ class Calculator {
       return;
     this.previousOperand = "";
     this.currentOperand = "";
+    this.operator = undefined;
     this.updateDisplay();
   }
 
@@ -88,6 +128,7 @@ restartButton.addEventListener("click", () => {
   calculator.clear();
 });
 
+
 deleteButton.addEventListener("click", () => {
   calculator.delete();
 });
@@ -104,4 +145,8 @@ operators.forEach((button) => {
     const operator = e.target.innerText;
     calculator.operation(operator);
   });
+});
+
+equalButton.addEventListener("click", () => {
+  calculator.compute();
 });
